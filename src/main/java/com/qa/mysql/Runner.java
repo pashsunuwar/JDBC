@@ -8,6 +8,8 @@ public class Runner {
 		db.OpeningTheConnecton();
 		db.Create();
 		db.Read();
+		db.Update();
+		db.Delete();
 
 	}
 }

@@ -32,7 +32,7 @@ public class LearningJDBC {
 
 	public void OpeningTheConnecton() {
 		Connection conn = null;
-		Statement stmt = null;
+		Statement statement = null;
 		try {
 			// STEP 2: Register JDBC driver
 			Class.forName(JDBC_DRIVER);
@@ -68,7 +68,7 @@ public class LearningJDBC {
 			// turns out your have to insert the whole row of CUST DETAILS
 			// not just the first two (for e.g. name, address) ((WASTED 3HRS ON THIS...))
 			statement.executeUpdate("INSERT INTO customers(name, address, email, password, city) "
-					+ "VALUES('Sideshow Bob','44 Four Drive','simpsons@tv.com', 'simpsons', 'Springfield')");
+					+ "VALUES('Funtz', '9 Ridge Road','funtz@gmail.com', 'funtu', 'New York')");
 
 			conn.close();
 			statement.close();
@@ -89,6 +89,36 @@ public class LearningJDBC {
 			sql = "SELECT * FROM customers";
 			ResultSet rs = statement.executeQuery(sql);
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void Update() {
+		try {
+
+			Connection conn = DriverManager.getConnection(jdbcConnectionURL, username, password);
+			Statement statement = conn.createStatement();
+			System.out.println("Updating statement...");
+
+			statement.executeUpdate("UPDATE customers SET name = 'JAVAisFUN' " + "WHERE customer_id = '7'");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void Delete() {
+		try {
+			Connection conn = DriverManager.getConnection(jdbcConnectionURL, username, password);
+			Statement statement = conn.createStatement();
+			System.out.println("Deleting statement...");
+
+			String sql;
+			statement.executeUpdate("Delete FROM customers WHERE customer_id = '26'");
+			sql = "SELECT * FROM customers";
+			ResultSet rs = statement.executeQuery(sql);
+
 			// Extract data from result set
 			while (rs.next()) {
 				// Retrieve by column name
@@ -97,9 +127,10 @@ public class LearningJDBC {
 				String address = rs.getString("address");
 
 				// Display the values
-//				System.out.println("Fetching info...");
+				// System.out.println("Fetching info...");
 				System.out.println("Id = " + id + "  --  Name = " + name + "  --  Address = " + address);
 			}
+
 			rs.close();
 			statement.close();
 			conn.close();
@@ -108,38 +139,9 @@ public class LearningJDBC {
 			e.printStackTrace();
 		}
 
-//	public void Cleanup() {
-//		
-//		stmt.close();
-//		conn.close();
-//	}catch(
-//
-//	SQLException se)
-//	{
-//		// Handle errors for JDBC
-//		se.printStackTrace();
-//	}catch(
-//	Exception e)
-//	{
-//		// Handle errors for Class.forName
-//		e.printStackTrace();
-//	}finally
-//	{
-//		// finally block used to close resources
-//		try {
-//			if (stmt != null)
-//				stmt.close();
-//		} catch (SQLException se2) {
-//		} // nothing we can do
-//		try {
-//			if (conn != null)
-//				conn.close();
-//		} catch (SQLException se) {
-//			se.printStackTrace();
-//		} // end finally try
-//	} // end try
+		// end of CRUD
+
 		System.out.println("Goodbye!");
-// end main
 
 	}
 
